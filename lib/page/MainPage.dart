@@ -243,7 +243,7 @@ class _MyAppState extends State<MainPage> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        meeting['description'],
+                        meeting['organizer']['username'],
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
