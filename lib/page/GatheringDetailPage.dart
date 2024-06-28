@@ -317,17 +317,15 @@ class _GatheringDetailPageState extends State<GatheringDetailPage> {
                 Expanded(
                   child:
                   ElevatedButton(
-                    /*
+
                 onPressed:gatheringData["organizer"]==null ? null : gatheringData["organizer"]["username"] != username ? null :  (){
 
                   Navigator.push(context, MaterialPageRoute(builder: (c) => GatheringUpdatePage(gatheringId:widget.gatheringId)));
                 },
 
-               */
-                    onPressed: (){
 
-                      Navigator.push(context, MaterialPageRoute(builder: (c) => GatheringUpdatePage(gatheringId:widget.gatheringId)));
-                    },
+
+
                     child: Text('수정하기', style: TextStyle(color: Colors.white),),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.redAccent,

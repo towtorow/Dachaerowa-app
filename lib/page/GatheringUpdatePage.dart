@@ -175,6 +175,8 @@ class _GatheringUpdatePageState extends State<GatheringUpdatePage> {
       String? token = prefs.getString('jwt');
 
 
+      try{
+
 
 
 
@@ -205,28 +207,42 @@ class _GatheringUpdatePageState extends State<GatheringUpdatePage> {
       setState(() {
         _isLoading = false;
       });
-      if (response.statusCode == 200) {
+
+      } on DioError catch (e) {
+
+        setState(() {
+          _isLoading = false;
+        });
+
+        if (e.response != null) {
+          if (e.response!.statusCode == 200) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("저장 성공")),
+            );
+
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => MainPage()), (Route<dynamic> route) => false,
+            );
+          }else if(e.response!.statusCode == 413){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("데이터 용량이 너무 큽니다 (100MB 초과).")),
+            );
+          }else{
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(e.response!.data["message"]))
+            );
+          }
+        }else{
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("서버 장애")),
+          );
+        }
 
 
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("저장 성공")),
-        );
 
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => MainPage()), (Route<dynamic> route) => false,
-        );
 
-      } else if(response.statusCode == 413){
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("데이터 용량이 너무 큽니다 (100MB 초과).")),
-        );
-      } else{
-
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(response.data["message"]))
-        );
       }
     }
 
